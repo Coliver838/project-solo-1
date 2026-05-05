@@ -3,98 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ігровий Проєкт</title>
+    <title>Game Project</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="header">
-      <div class="header-container">
-        <div class="logo">Logo</div>
-        <nav>
-          <div class="dropdown">
-            <button class="dropbtn">Інтерактив ▼</button>
-            <div class="dropdown-content" id="category-filter">
-              <span data-category="all">Всі</span>
-              <span data-category="numerical">Числові</span>
-              <span data-category="game">Ігри</span>
-            </div>
+      <div class="container">
+        <span class="user-greeting"
+          >Вітаємо, <span id="user-name-display">Гість</span>!</span
+        >
+        <button id="theme-toggle">Змінити тему</button>
+        <div class="dropdown">
+          <button class="dropbtn">Інтерактив ▼</button>
+          <div class="dropdown-content" id="category-filter">
+            <a href="#" data-category="all">Всі</a>
+            <a href="#" data-category="numerical">Числові</a>
+            <a href="#" data-category="game">Ігри</a>
+            <a href="#" data-category="acquaintance">Знайомство</a>
           </div>
-        </nav>
-        <div class="user-info">
-          <span id="user-display">Вітаємо, Гість!</span>
-          <button id="theme-btn">Змінити тему</button>
-          <button id="open-welcome">Вхід</button>
         </div>
+        <button id="open-welcome-modal">Ввести ім'я</button>
       </div>
     </header>
 
-    <main class="main-layout">
-      <div class="sidebar left-bg"></div>
-
-      <div class="center-column">
-        <h1>Популярні інтерактивні ігри</h1>
-
-        <!-- Секція 1: Високосний -->
-        <section class="game-section" id="leap-year">
-          <h3>Перевір, чи народжений ти у високосний рік?</h3>
-          <input type="number" id="year-input" placeholder="Введіть рік" />
-          <button onclick="checkLeapYear()">Перевірити</button>
-          <p id="leap-result"></p>
-        </section>
-
-        <!-- Секція 2: Вгадай число -->
-        <section class="game-section">
-          <h3>Вгадай число, яке загадав комп'ютер</h3>
-          <input type="number" id="guess-input" placeholder="Від 1 до 10" />
-          <button onclick="guessNumber()">Вгадати</button>
-          <p id="guess-result"></p>
-        </section>
-
-        <!-- Секція 3: Камінь-Ножиці-Папір -->
-        <section class="game-section">
-          <h3>Камінь - Ножиці - Папір</h3>
-          <div class="rps-buttons">
-            <button onclick="playRPS('камінь')">🪨</button>
-            <button onclick="playRPS('ножиці')">✂️</button>
-            <button onclick="playRPS('папір')">📄</button>
-          </div>
-          <p id="rps-result"></p>
-          <p>Рахунок: <span id="rps-score">0:0</span></p>
-        </section>
-
-        <!-- Секція 4: Футбол (як на скрині - зелене поле) -->
-        <section class="game-section">
-          <h3>Футбол</h3>
-          <div id="football-field">
-            <div id="ball">⚽</div>
-          </div>
-        </section>
-
-        <!-- Секція: Карточки внизу (сітка) -->
-        <div class="games-grid" id="cards-container">
-          <!-- Картки генеруються через JS -->
-        </div>
-      </div>
-
-      <div class="sidebar right-bg"></div>
+    <main class="container">
+      <section class="games-grid" id="games-container">
+        <!-- Картки генеруються JS -->
+      </section>
     </main>
 
     <footer class="footer">
-      <div class="footer-content">
-        <p>&copy; 2024 Coding Space</p>
-        <form id="sub-form">
+      <div class="container">
+        <p>&copy; 2024 Мій Ігровий Проєкт</p>
+        <form id="subscribe-form">
           <input type="email" placeholder="Ваш email" required />
           <button type="submit">Підписатися</button>
         </form>
       </div>
     </footer>
 
-    <!-- Модалки -->
-    <div id="modal-welcome" class="modal">
+    <!-- Модальне вікно привітання -->
+    <div id="welcome-modal" class="modal">
       <div class="modal-content">
-        <h2>Вітаємо!</h2>
-        <input type="text" id="name-input" placeholder="Ваше ім'я" />
-        <button id="save-name-btn">Увійти</button>
+        <span class="close" id="close-welcome">&times;</span>
+        <h2>Як вас звати?</h2>
+        <input type="text" id="user-name-input" placeholder="Введіть ім'я" />
+        <button id="save-name">Зберегти</button>
+      </div>
+    </div>
+
+    <!-- Модальне вікно підписки -->
+    <div id="subscribe-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="close-subscribe">&times;</span>
+        <h2>Дякуємо за підписку!</h2>
+        <p>Ви отримаєте свіжі новини першими.</p>
+      </div>
+    </div>
+
+    <!-- Контейнер для ігор (динамічний контент) -->
+    <div id="game-overlay" class="modal">
+      <div class="modal-content game-content" id="game-zone">
+        <span class="close" id="close-game">&times;</span>
+        <div id="game-interface"></div>
       </div>
     </div>
 
