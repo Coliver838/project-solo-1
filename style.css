@@ -1,0 +1,96 @@
+// Масив ігор для карток
+const gamesData = [
+    { id: 1, name: 'Число', category: 'numerical' },
+    { id: 2, name: 'РПС', category: 'game' },
+    { id: 3, name: 'Вчені', category: 'acquaintance' },
+    { id: 4, name: 'Дино', category: 'game' },
+    { id: 5, name: 'Час', category: 'numerical' },
+    { id: 6, name: 'Матч', category: 'game' }
+];
+
+// 1. Генерація карток
+const cardsContainer = document.getElementById('cards-container');
+function renderCards(cat = 'all') {
+    cardsContainer.innerHTML = '';
+    const filtered = cat === 'all' ? gamesData : gamesData.filter(g => g.category === cat);
+    filtered.forEach(game => {
+        const div = document.createElement('div');
+        div.className = 'game-card';
+        div.innerText = game.name;
+        cardsContainer.appendChild(div);
+    });
+}
+renderCards();
+
+// 2. Зміна теми
+document.getElementById('theme-btn').onclick = () => document.body.classList.toggle('dark-theme');
+
+// 3. Модальне вікно привітання
+const modal = document.getElementById('modal-welcome');
+document.getElementById('open-welcome').onclick = () => modal.style.display = 'block';
+document.getElementById('save-name-btn').onclick = () => {
+    const name = document.getElementById('name-input').value;
+    document.getElementById('user-display').innerText = `Вітаємо, ${name || 'Гість'}!`;
+    modal.style.display = 'none';
+};
+
+// 4. Логіка: Високосний рік
+function checkLeapYear() {
+    const year = document.getElementById('year-input').value;
+    const res = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    document.getElementById('leap-result').innerText = res ? "Ви народилися у високосний рік!" : "Це не високосний рік";
+}
+
+// 5. Логіка: Вгадай число
+const secretNum = Math.floor(Math.random() * 10) + 1;
+function guessNumber() {
+    const userVal = parseInt(document.getElementById('guess-input').value);
+    const p = document.getElementById('guess-result');
+    if (userVal === secretNum) p.innerText = `Вітаю! Я загадав ${secretNum}`;
+    else p.innerText = "Не вгадали, спробуйте ще!";
+}
+
+// 6. Логіка: Футбол
+const field = document.getElementById('football-field');
+const ball = document.getElementById('ball');
+field.onclick = function(e) {
+    let rect = field.getBoundingClientRect();
+    let x = e.clientX - rect.left - ball.offsetWidth / 2;
+    let y = e.clientY - rect.top - ball.offsetHeight / 2;
+
+    // Обмеження, щоб не вилітав
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x + ball.offsetWidth > rect.width) x = rect.width - ball.offsetWidth;
+    if (y + ball.offsetHeight > rect.height) y = rect.height - ball.offsetHeight;
+
+    ball.style.left = x + 'px';
+    ball.style.top = y + 'px';
+};
+
+// 7. Камінь-Ножиці-Папір
+let userScore = 0;
+let compScore = 0;
+function playRPS(user) {
+    const options = ['камінь', 'ножиці', 'папір'];
+    const comp = options[Math.floor(Math.random() * 3)];
+    let result = "";
+
+    if (user === comp) result = "Нічия!";
+    else if ((user === 'камінь' && comp === 'ножиці') || 
+             (user === 'папір' && comp === 'камінь') || 
+             (user === 'ножиці' && comp === 'папір')) {
+        result = "Ви виграли!";
+        userScore++;
+    } else {
+        result = "Комп'ютер виграв!";
+        compScore++;
+    }
+    document.getElementById('rps-result').innerText = `Комп: ${comp}. ${result}`;
+    document.getElementById('rps-score').innerText = `${userScore}:${compScore}`;
+}
+
+// 8. Фільтр інтерактиву
+document.getElementById('category-filter').onclick = (e) => {
+    if (e.target.dataset.category) renderCards(e.target.dataset.category);
+};
