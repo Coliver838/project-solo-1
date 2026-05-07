@@ -3,72 +3,167 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Project</title>
+    <title>Coding Magic — інтерактивні ігри</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="header">
-      <div class="container">
-        <span class="user-greeting"
-          >Вітаємо, <span id="user-name-display">Гість</span>!</span
-        >
-        <button id="theme-toggle">Змінити тему</button>
-        <div class="dropdown">
-          <button class="dropbtn">Інтерактив ▼</button>
-          <div class="dropdown-content" id="category-filter">
-            <a href="#" data-category="all">Всі</a>
-            <a href="#" data-category="numerical">Числові</a>
-            <a href="#" data-category="game">Ігри</a>
-            <a href="#" data-category="acquaintance">Знайомство</a>
+    <header class="site-header">
+      <div class="container header__inner">
+        <a class="logo" href="#top" aria-label="Coding Magic">
+          <span class="logo__icon">⌘</span>
+          <span>Coding Magic</span>
+        </a>
+        <nav class="nav" aria-label="Головна навігація">
+          <a href="#top">Головна</a>
+          <div class="dropdown">
+            <button
+              class="nav__button"
+              id="interactiveToggle"
+              type="button"
+              aria-expanded="false"
+            >
+              Інтерактив <span>▾</span>
+            </button>
+            <div class="dropdown__menu" id="categoryMenu">
+              <button type="button" data-category="all">Усі завдання</button>
+              <button type="button" data-category="numerical">Числові</button>
+              <button type="button" data-category="game">Ігрові</button>
+              <button type="button" data-category="acquaintance">
+                Знайомство
+              </button>
+            </div>
           </div>
+          <a href="#contacts">Контакти</a>
+        </nav>
+        <div class="header__actions">
+          <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            aria-label="Змінити тему"
+          >
+            <span class="theme-toggle__track"
+              ><span class="theme-toggle__thumb"></span
+            ></span>
+          </button>
+          <p class="hello">Вітаємо, <span id="userName">друже</span>!</p>
+          <button class="primary-btn" id="openGreeting" type="button">
+            Увійти
+          </button>
         </div>
-        <button id="open-welcome-modal">Ввести ім'я</button>
       </div>
     </header>
 
-    <main class="container">
-      <section class="games-grid" id="games-container">
-        <!-- Картки генеруються JS -->
+    <main id="top">
+      <section class="hero">
+        <div class="container hero__inner">
+          <p class="eyebrow">HTML • CSS • JavaScript</p>
+          <h1>Популярні інтерактивні ігри</h1>
+          <p class="hero__text">
+            Проєкт для закріплення верстки, модальних вікон, подій, масивів
+            об’єктів, фільтрації та JavaScript-логіки у форматі набору мініігор.
+          </p>
+          <a class="primary-btn" href="#games">Перейти до завдань</a>
+        </div>
+      </section>
+
+      <section class="games-section" id="games">
+        <div class="container">
+          <div class="section-title">
+            <p class="eyebrow">Обери завдання</p>
+            <h2>Інтерактивні картки</h2>
+            <p id="filterLabel">Показані всі категорії</p>
+          </div>
+          <div class="cards" id="gamesGrid" aria-live="polite"></div>
+        </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2024 Мій Ігровий Проєкт</p>
-        <form id="subscribe-form">
-          <input type="email" placeholder="Ваш email" required />
-          <button type="submit">Підписатися</button>
+    <footer class="footer" id="contacts">
+      <div class="container footer__inner">
+        <div>
+          <a class="logo footer__logo" href="#top"
+            ><span class="logo__icon">⌘</span><span>Coding Magic</span></a
+          >
+          <p>Навчальний сайт з інтерактивними JavaScript-іграми.</p>
+        </div>
+        <address>
+          Tel: +38 (123) 456 78 90<br />
+          E-mail: codingmagic@gmail.com<br />
+          Facebook: CodingMagicSchool
+        </address>
+        <form class="subscribe" id="subscribeForm">
+          <label for="email">Підписатися на новини</label>
+          <div>
+            <input id="email" type="email" placeholder="Ваш e-mail" required />
+            <button class="primary-btn" type="submit">Підписатися</button>
+          </div>
         </form>
       </div>
     </footer>
 
-    <!-- Модальне вікно привітання -->
-    <div id="welcome-modal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="close-welcome">&times;</span>
-        <h2>Як вас звати?</h2>
-        <input type="text" id="user-name-input" placeholder="Введіть ім'я" />
-        <button id="save-name">Зберегти</button>
+    <div class="modal" id="greetingModal" aria-hidden="true">
+      <div class="modal__backdrop" data-close-modal></div>
+      <div
+        class="modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="greetingTitle"
+      >
+        <button
+          class="modal__close"
+          type="button"
+          data-close-modal
+          aria-label="Закрити"
+        >
+          ×
+        </button>
+        <h2 id="greetingTitle">Привіт!</h2>
+        <p>Введи своє ім’я, і воно з’явиться у хедері сайту.</p>
+        <form id="nameForm" class="modal-form">
+          <input
+            id="nameInput"
+            type="text"
+            placeholder="Твоє ім’я"
+            minlength="2"
+            required
+          />
+          <button class="primary-btn" type="submit">Зберегти</button>
+        </form>
       </div>
     </div>
 
-    <!-- Модальне вікно підписки -->
-    <div id="subscribe-modal" class="modal">
-      <div class="modal-content">
-        <span class="close" id="close-subscribe">&times;</span>
-        <h2>Дякуємо за підписку!</h2>
-        <p>Ви отримаєте свіжі новини першими.</p>
+    <div class="modal" id="subscribeModal" aria-hidden="true">
+      <div class="modal__backdrop" data-close-modal></div>
+      <div
+        class="modal__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="subscribeTitle"
+      >
+        <button
+          class="modal__close"
+          type="button"
+          data-close-modal
+          aria-label="Закрити"
+        >
+          ×
+        </button>
+        <h2 id="subscribeTitle">Дякуємо за підписку!</h2>
+        <p>Ми надішлемо корисні матеріали та новини на вказану пошту.</p>
+        <button class="primary-btn" type="button" data-close-modal>
+          Гаразд
+        </button>
       </div>
     </div>
 
-    <!-- Контейнер для ігор (динамічний контент) -->
-    <div id="game-overlay" class="modal">
-      <div class="modal-content game-content" id="game-zone">
-        <span class="close" id="close-game">&times;</span>
-        <div id="game-interface"></div>
-      </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>
+script.js
